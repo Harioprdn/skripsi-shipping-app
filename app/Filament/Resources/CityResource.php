@@ -32,6 +32,10 @@ class CityResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->label('Kota Tujuan')
                     ->required(),
+
+                // Forms\Components\TextInput::make('city_code')
+                //     ->label('Kode Kota')
+                //     ->required(),
             ]);
     }
 
@@ -44,6 +48,11 @@ class CityResource extends Resource
                     ->label('Kota Tujuan')
                     ->searchable()
                     ->sortable(),
+
+                // Tables\Columns\TextColumn::make('city_code')
+                //     ->label('Kode Kota')
+                //     ->searchable()
+                //     ->sortable(),
             ])
             ->filters([
                 //

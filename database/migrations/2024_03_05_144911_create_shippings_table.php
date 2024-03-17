@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('shippings', function (Blueprint $table) {
             $table->id();
+            $table->string('number', 32)->unique();
+            // $table->enum('status', ['new', 'processing', 'shipped', 'delivered', 'cancelled'])->default('new');
             $table->string('sender_name');
             $table->string('sender_address');
             $table->string('sender_phone');
@@ -24,7 +26,7 @@ return new class extends Migration
             $table->integer('item_count');
             $table->integer('item_weight');
             $table->dateTime('date');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->integer('price');
             $table->timestamps();
         });

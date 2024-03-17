@@ -31,6 +31,20 @@ class ShippingResource extends Resource
     {
         return $form
             ->schema([
+
+                Forms\Components\TextInput::make('number')
+                    ->default('MC' . random_int(10000000, 99999999))
+                    ->disabled()
+                    ->dehydrated()
+                    ->required()
+                    ->maxLength(32)
+                    ->unique(Shipping::class, 'number', ignoreRecord: true),
+
+                // Forms\Components\ToggleButtons::make('status')
+                //     ->inline()
+                //     ->options(OrderStatus::class)
+                //     ->required(),
+
                 Forms\Components\TextInput::make('sender_name')
                     ->label('Nama Pengirim')
                     ->required(),
@@ -80,7 +94,8 @@ class ShippingResource extends Resource
                     ->required(),
 
                 Forms\Components\Textarea::make('description')
-                    ->label('Keterangan'),
+                    ->label('Keterangan')
+                    ->nullable(),
 
                 Forms\Components\TextInput::make('price')
                     ->label('Harga')
@@ -92,6 +107,10 @@ class ShippingResource extends Resource
     {
         return $table
             ->columns([
+
+                Tables\Columns\TextColumn::make('number')
+                    ->label('No Resi')
+                    ->searchable(),
 
                 Tables\Columns\TextColumn::make('sender_name')
                     ->label('Nama Pengirim')

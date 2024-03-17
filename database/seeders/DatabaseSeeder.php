@@ -21,6 +21,21 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('password'),
 
         ]);
+
+        DB::table('cities')->insert([
+            'name' => 'Bandung',
+
+        ]);
+
+        DB::table('items')->insert([
+            'name' => 'Pakaian',
+
+        ]);
+
+        DB::table('drivers')->insert([
+            'name' => 'Hario',
+
+        ]);
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([

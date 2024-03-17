@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Shipping extends Model
 {
@@ -22,5 +23,10 @@ class Shipping extends Model
     public function cities(): BelongsTo
     {
         return $this->belongsTo(City::class);
+    }
+
+    public function shippingnotes(): HasMany
+    {
+        return $this->hasMany(ShippingNote::class);
     }
 }
