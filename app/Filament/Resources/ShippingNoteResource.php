@@ -7,6 +7,7 @@ use App\Filament\Resources\ShippingNoteResource\RelationManagers;
 use App\Models\Driver;
 use App\Models\Shipping;
 use App\Models\ShippingNote;
+use DateTime;
 use Filament\Forms;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\TextInput;
@@ -41,31 +42,36 @@ class ShippingNoteResource extends Resource
                     ->label('Pilih Kurir')
                     ->searchable(),
 
-                Repeater::make('shipping_notes')
+                Forms\Components\Repeater::make('shippings_id')
                     ->label('Pilih Pengiriman')
-                    ->relationship()
+
                     ->schema([
                         Forms\Components\Select::make('shippings_id')
-                            ->options(Shipping::all()->pluck('number', 'id')->toArray())
+                            ->options(Shipping::all()->pluck('number', 'id',)->toArray())
                             ->required()
-                            ->label('')
+                            ->label('Pilih Pengiriman')
                             ->searchable(),
-                    ])
-                    ->mutateRelationshipDataBeforeCreateUsing(function (array $data): array {
-                        $data['drivers_id'] = auth()->id();
+                    ]),
 
-                        return $data;
-                    })
-            ]);
+                Forms\Components\TextInput::make('vehicle')
+                    ->label('Kendaraan'),
+
+                Forms\Components\TextInput::make('number_plate')
+                    ->label('Plat Nomor'),
+
+                Forms\Components\DatePicker::make('tanggal')
+                    ->label('Tanggal'),
+            ])
+            ->columns(1);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                // Tables\Columns\TextColumn::make('drivers.name')
-                //     ->label('Kurir')
-                //     ->searchable(),
+                Tables\Columns\TextColumn::make('drivers.name')
+                    ->label('Kurir')
+                    ->searchable(),
 
                 // Tables\Columns\TextColumn::make('shippings.number')
                 //     ->label('Pengiriman')

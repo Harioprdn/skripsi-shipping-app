@@ -27,6 +27,6 @@ class Shipping extends Model
 
     public function shippingnotes(): HasMany
     {
-        return $this->hasMany(ShippingNote::class);
+        return $this->hasManys(ShippingNote::class);
     }
 }

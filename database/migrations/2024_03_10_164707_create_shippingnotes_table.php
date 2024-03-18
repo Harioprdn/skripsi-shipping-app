@@ -15,8 +15,11 @@ return new class extends Migration
     {
         Schema::create('shipping_notes', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Driver::class);
-            $table->foreignIdFor(Shipping::class);
+            $table->foreignId('drivers_id');
+            $table->json('shippings_id');
+            $table->string('vehicle');
+            $table->string('number_plate');
+            $table->date('tanggal');
             $table->timestamps();
         });
     }
