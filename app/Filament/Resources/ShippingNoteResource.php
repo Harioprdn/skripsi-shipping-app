@@ -35,15 +35,15 @@ class ShippingNoteResource extends Resource
 
             ->schema([
 
-                Forms\Components\Select::make('drivers_id')
+                Forms\Components\Select::make('driver_id')
                     ->options(Driver::all()->pluck('name', 'id')->toArray())
                     ->required()
                     ->label('Pilih Kurir')
                     ->searchable(),
 
-                Repeater::make('shipping_notes')
+                Repeater::make('shipping_id')
                     ->label('Pilih Pengiriman')
-                    ->relationship()
+                    // ->relationship()
                     ->schema([
                         Forms\Components\Select::make('shippings_id')
                             ->options(Shipping::all()->pluck('number', 'id')->toArray())

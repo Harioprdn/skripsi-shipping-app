@@ -14,6 +14,10 @@ class ShippingNote extends Model
         'id',
     ];
 
+    protected $casts = [
+        'shipping_id' => 'json'
+    ];
+
     public function drivers(): BelongsTo
     {
         return $this->belongsTo(Driver::class);
