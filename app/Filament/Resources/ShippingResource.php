@@ -139,8 +139,6 @@ class ShippingResource extends Resource
 
                         Forms\Components\TextInput::make('price')
                             ->label('Harga')
-                            ->reactive()
-                            ->afterStateUpdated(fn ($state, Forms\Set $set) => $set('price', Cost::find($state)?->price ?? 0))
                             ->dehydrated()
                             ->prefix('Rp')
                             ->numeric()
