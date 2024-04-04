@@ -21,8 +21,8 @@ class Cost extends Model
         return $this->belongsTo(City::class);
     }
 
-    public function items(): BelongsTo
+    public function shippings(): HasMany
     {
-        return $this->belongsTo(Item::class);
+        return $this->hasMany(Shipping::class);
     }
 }

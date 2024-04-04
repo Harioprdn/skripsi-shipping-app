@@ -7,6 +7,7 @@ use App\Filament\Resources\CostResource\RelationManagers;
 use App\Models\Cost;
 use App\Models\City;
 use App\Models\Item;
+use Filament\Actions\DeleteAction;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -37,15 +38,10 @@ class CostResource extends Resource
                     ->label('Kota Tujuan')
                     ->searchable(),
 
-                Forms\Components\Select::make('items_id')
-                    ->options(Item::all()->pluck('name', 'id')->toArray())
-                    ->required()
-                    ->label('Jenis Barang')
-                    ->searchable(),
-
                 Forms\Components\TextInput::make('price')
                     ->required()
-                    ->label('Biaya'),
+                    ->prefix('Rp')
+                    ->label('Biaya Pengiriman'),
             ]);
     }
 
@@ -55,24 +51,19 @@ class CostResource extends Resource
             ->columns([
 
                 Tables\Columns\TextColumn::make('cities.name')
-                    ->sortable()
                     ->label('Kota Tujuan')
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('items.name')
-                    ->sortable()
-                    ->label('Jenis barang')
-                    ->searchable(),
-
                 Tables\Columns\TextColumn::make('price')
-                    ->sortable()
-                    ->label('Biaya'),
+                    ->prefix('Rp ')
+                    ->label('Biaya Pengiriman'),
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make()
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

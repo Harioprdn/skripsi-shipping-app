@@ -19,7 +19,7 @@ return new class extends Migration
             $table->json('shippings_id');
             $table->string('vehicle');
             $table->string('number_plate');
-            $table->date('tanggal');
+            $table->dateTime('date');
             $table->timestamps();
         });
     }

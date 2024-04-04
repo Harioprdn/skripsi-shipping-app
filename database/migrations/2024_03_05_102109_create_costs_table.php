@@ -14,15 +14,9 @@ return new class extends Migration
     {
         Schema::create('costs', function (Blueprint $table) {
             $table->id();
-
-            $table->foreignId('cities_id')
-                ->constrained('cities');
-
-            $table->foreignId('items_id')
-                ->constrained('items');
-
-            $table->integer('price');
-
+            $table->foreignId('cities_id')->nullable()->cascadeOnDelete();
+            $table->foreignId('shippings_id')->nullable()->cascadeOnDelete();
+            $table->decimal('price', 10, 2);
             $table->timestamps();
         });
     }

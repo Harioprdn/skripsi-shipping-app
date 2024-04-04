@@ -6,11 +6,19 @@ use App\Filament\Resources\ShippingResource\Pages;
 use App\Filament\Resources\ShippingResource\RelationManagers;
 use App\Models\Shipping;
 use App\Models\City;
+use App\Models\Cost;
 use App\Models\Item;
+use DateTime;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\ViewAction;
 use Filament\Forms;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Form;
+use Filament\Forms\FormsComponent;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\BadgeColumn;
+use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -27,79 +35,147 @@ class ShippingResource extends Resource
 
     protected static ?string $pluralLabel = 'Pengiriman';
 
+    public function calculateShippingCost($request)
+    {
+        $cityId = $request->input('cities_id');
+        $itemId = $request->input('items_id');
+        $quantity = $request->input('quantity');
+
+        // Mendapatkan biaya pengiriman berdasarkan kota dan jenis barang
+        $cost = Cost::where('city_id', $cityId)
+            ->where('item_id', $itemId)
+            ->first();
+
+        // Validasi jika biaya tidak ditemukan
+        if (!$cost) {
+            return ['error' => 'Cost not found'];
+        }
+
+        // Menghitung total biaya berdasarkan jumlah barang
+        $totalCost = $cost->cost_per_item * $quantity;
+
+        return ['total_cost' => $totalCost];
+    }
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
+                Forms\Components\Section::make()
+                    ->schema([
+                        Forms\Components\TextInput::make('number')
+                            ->label('Nomor Resi')
+                            ->default('MC' . random_int(1000000000, 9999999999))
+                            ->disabled()
+                            ->dehydrated()
+                            ->required()
+                            ->maxLength(32)
+                            ->unique(Shipping::class, 'number', ignoreRecord: true),
 
-                Forms\Components\TextInput::make('number')
-                    ->default('MC' . random_int(10000000, 99999999))
-                    ->disabled()
-                    ->dehydrated()
-                    ->required()
-                    ->maxLength(32)
-                    ->unique(Shipping::class, 'number', ignoreRecord: true),
+                        Forms\Components\ToggleButtons::make('status')
+                            ->inline()
+                            ->options([
+                                'Baru' => 'Baru',
+                                'Diproses' => 'Diproses',
+                                'Terkirim' => 'Terkirim',
+                                'Dibatalkan' => 'Dibatalkan'
+                            ])
+                            ->colors([
+                                'Baru' => 'info',
+                                'Diproses' => 'warning',
+                                'Terkirim' => 'success',
+                                'Dibatalkan' => 'danger',
+                            ])
+                            ->icons([
+                                'Baru' => 'heroicon-m-sparkles',
+                                'Diproses' => 'heroicon-m-arrow-path',
+                                'Terkirim' => 'heroicon-m-check-badge',
+                                'Dibatalkan' => 'heroicon-m-x-circle',
+                            ])
+                            ->default('Baru'),
+                    ])
+                    ->columns(2),
 
-                // Forms\Components\ToggleButtons::make('status')
-                //     ->inline()
-                //     ->options(OrderStatus::class)
-                //     ->required(),
+                Forms\Components\Section::make('Data Pengirim')
+                    ->schema([
+                        Forms\Components\TextInput::make('sender_name')
+                            ->label('Nama Pengirim')
+                            ->required(),
 
-                Forms\Components\TextInput::make('sender_name')
-                    ->label('Nama Pengirim')
+                        Forms\Components\TextInput::make('sender_address')
+                            ->label('Alamat Pengirim')
+                            ->required(),
+
+                        Forms\Components\TextInput::make('sender_phone')
+                            ->label('Telp. Pengirim')
+                            ->required(),
+                    ]),
+
+                Forms\Components\Section::make('Data Penerima')
+                    ->schema([
+                        Forms\Components\TextInput::make('receiver_name')
+                            ->label('Nama Penerima')
+                            ->required(),
+
+                        Forms\Components\TextInput::make('receiver_address')
+                            ->label('Alamat Penerima')
+                            ->required(),
+
+                        Forms\Components\TextInput::make('receiver_phone')
+                            ->label('Telp. Penerima')
+                            ->required(),
+                    ]),
+
+                Forms\Components\Section::make('Biaya Pengiriman')
+                    ->schema([
+                        Forms\Components\Select::make('costs_id')
+                            ->options(Cost::all()->pluck('cities.name', 'id')->toArray())
+                            ->required()
+                            ->afterStateUpdated(fn ($state, Forms\Set $set) => $set('price', Cost::find($state)?->price ?? 0))
+                            ->reactive()
+                            ->distinct()
+                            ->label('Kota Tujuan')
+                            ->searchable(),
+
+                        Forms\Components\TextInput::make('price')
+                            ->label('Harga')
+                            ->reactive()
+                            ->afterStateUpdated(fn ($state, Forms\Set $set) => $set('price', Cost::find($state)?->price ?? 0))
+                            ->dehydrated()
+                            ->prefix('Rp')
+                            ->numeric()
+                            ->disabled()
+                            ->required(),
+                    ]),
+
+                Forms\Components\Section::make('Informasi Barang')
+                    ->schema([
+
+                        Forms\Components\Select::make('items_id')
+                            ->options(Item::all()->pluck('name', 'id')->toArray())
+                            ->label('Jenis Barang')
+                            ->required(),
+
+                        Forms\Components\TextInput::make('quantity')
+                            ->label('Jumlah  Barang')
+                            ->numeric()
+                            ->required(),
+
+                        Forms\Components\TextInput::make('item_weight')
+                            ->label('Berat')
+                            ->numeric()
+                            ->suffix(' Kg')
+                            ->required(),
+                    ]),
+
+                Forms\Components\DatePicker::make('shipping_date')
+                    ->label('Tanggal Pemesanan')
                     ->required(),
 
-                Forms\Components\TextInput::make('sender_address')
-                    ->label('Alamat Pengirim')
-                    ->required(),
-
-                Forms\Components\TextInput::make('sender_phone')
-                    ->label('Telp. Pengirim')
-                    ->required(),
-
-                Forms\Components\TextInput::make('receiver_name')
-                    ->label('Nama Penerima')
-                    ->required(),
-
-                Forms\Components\TextInput::make('receiver_address')
-                    ->label('Alamat Penerima')
-                    ->required(),
-
-                Forms\Components\TextInput::make('receiver_phone')
-                    ->label('Telp. Penerima')
-                    ->required(),
-
-                Forms\Components\Select::make('cities_id')
-                    ->options(City::all()->pluck('name', 'id')->toArray())
-                    ->required()
-                    ->label('Kota Tujuan')
-                    ->searchable(),
-
-                Forms\Components\Select::make('items_id')
-                    ->options(Item::all()->pluck('name', 'id')->toArray())
-                    ->required()
-                    ->label('Jenis Barang')
-                    ->searchable(),
-
-                Forms\Components\TextInput::make('item_count')
-                    ->label('Jumlah  Barang')
-                    ->required(),
-
-                Forms\Components\TextInput::make('item_weight')
-                    ->label('Berat')
-                    ->required(),
-
-                Forms\Components\DatePicker::make('date')
-                    ->label('Tanggal')
-                    ->required(),
-
-                Forms\Components\Textarea::make('description')
+                Forms\Components\MarkdownEditor::make('description')
                     ->label('Keterangan')
                     ->nullable(),
 
-                Forms\Components\TextInput::make('price')
-                    ->label('Harga')
-                    ->required(),
             ]);
     }
 
@@ -112,69 +188,63 @@ class ShippingResource extends Resource
                     ->label('No Resi')
                     ->searchable(),
 
+                Tables\Columns\TextColumn::make('status')
+                    ->badge()
+                    ->icon(fn (string $state): string => match ($state) {
+                        'Baru' => 'heroicon-m-sparkles',
+                        'Diproses' => 'heroicon-m-arrow-path',
+                        'Terkirim' => 'heroicon-m-check-badge',
+                        'Dibatalkan' => 'heroicon-m-x-circle',
+                    })
+                    ->color(fn (string $state): string => match ($state) {
+                        'Baru' => 'info',
+                        'Diproses' => 'warning',
+                        'Terkirim' => 'success',
+                        'Dibatalkan' => 'danger',
+                        default => 'gray',
+                    }),
+
                 Tables\Columns\TextColumn::make('sender_name')
                     ->label('Nama Pengirim')
                     ->searchable(),
-
-                // Tables\Columns\TextColumn::make('sender_address')
-                //     ->sortable()
-                //     ->label('Alamat Pengirim')
-                //     ->searchable(),
-
-                // Tables\Columns\TextColumn::make('sender_phone')
-                //     ->sortable()
-                //     ->label('Telp Pengirim')
-                //     ->searchable(),
 
                 Tables\Columns\TextColumn::make('receiver_name')
                     ->label('Nama Penerima')
                     ->searchable(),
 
-                // Tables\Columns\TextColumn::make('receiver_address')
-                //     ->sortable()
-                //     ->label('Alamat Penerima')
-                //     ->searchable(),
-
-                // Tables\Columns\TextColumn::make('receiver_phone')
-                //     ->sortable()
-                //     ->label('Telp Penerima')
-                //     ->searchable(),
-
-                Tables\Columns\TextColumn::make('cities.name')
+                Tables\Columns\TextColumn::make('costs.cities.name')
                     ->label('Kota Tujuan')
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('items.name')
-                    ->label('Jenis Barang')
+                Tables\Columns\TextColumn::make('shipping_date')
+                    ->label('Tanggal Pemesanan')
+                    ->badge()
                     ->searchable(),
 
-                // Tables\Columns\TextColumn::make('item_count')
-                //     ->sortable()
-                //     ->label('Jumlah Barang')
-                //     ->searchable(),
 
-                // Tables\Columns\TextColumn::make('item_weight')
-                //     ->sortable()
-                //     ->label('Berat')
-                //     ->searchable(),
-
-                // Tables\Columns\TextColumn::make('date')
-                //     ->sortable()
-                //     ->label('Tanggal')
-                //     ->searchable(),
-
-                // Tables\Columns\TextColumn::make('price')
-                //     ->sortable()
-                //     ->label('Harga')
-                //     ->searchable(),
 
             ])
             ->filters([
-                //
+
+                // Tables\Filters\SelectFilter::make('status')
+                //     ->options([
+                //         'Baru' => 'Baru',
+                //         'Diproses' => 'Diproses',
+                //         'Terkirim' => 'Terkirim',
+                //         'Dibatalkan' => 'Dibatalkan',
+                //     ])
+
+                Tables\Filters\Filter::make('status')
+                    ->label('Status')
             ])
+
             ->actions([
-                Tables\Actions\ViewAction::make('view_record')
-                    ->label('Lihat Data'),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+
+                ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -15,11 +15,6 @@ class Item extends Model
         'id'
     ];
 
-    public function costs(): HasMany
-    {
-        return $this->hasMany(Cost::class);
-    }
-
     public function shippings(): HasMany
     {
         return $this->hasMany(Shipping::class);

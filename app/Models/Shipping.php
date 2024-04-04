@@ -25,8 +25,20 @@ class Shipping extends Model
         return $this->belongsTo(City::class);
     }
 
+    public function costs(): BelongsTo
+    {
+        return $this->belongsTo(Cost::class);
+    }
+
     public function shippingnotes(): HasMany
     {
         return $this->hasManys(ShippingNote::class);
+    }
+
+    public static function generateNomorResi()
+    {
+        // Logika untuk meng-generate nomor resi
+        // Misalnya, menggunakan kombinasi tanggal dan angka acak
+        return 'MC' . date('Ymd') . mt_rand(1000, 9999);
     }
 }
