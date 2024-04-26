@@ -32,7 +32,7 @@ class Shipping extends Model
 
     public function shippingnotes(): HasMany
     {
-        return $this->hasManys(ShippingNote::class);
+        return $this->hasMany(ShippingNote::class);
     }
 
     public static function generateNomorResi()

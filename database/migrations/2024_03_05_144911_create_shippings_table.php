@@ -23,10 +23,11 @@ return new class extends Migration
             $table->foreignId('items_id')->constrained('items');
             $table->integer('quantity');
             $table->integer('item_weight');
-            $table->date('shipping_date');
+            $table->dateTime('date');
             $table->text('description')->nullable();
             $table->foreignId('costs_id')->constrained('costs');
             $table->decimal('price')->nullable();
+            $table->foreignId('shippingnotes_id')->nullable();
             $table->timestamps();
         });
     }

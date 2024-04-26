@@ -10,9 +10,11 @@ use App\Models\Cost;
 use App\Models\Item;
 use DateTime;
 use Filament\Actions\DeleteAction;
+use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\ToggleButtons;
 use Filament\Forms\Form;
 use Filament\Forms\FormsComponent;
 use Filament\Resources\Resource;
@@ -65,7 +67,7 @@ class ShippingResource extends Resource
                     ->schema([
                         Forms\Components\TextInput::make('number')
                             ->label('Nomor Resi')
-                            ->default('MC' . random_int(1000000000, 9999999999))
+                            ->default('MC' . date('ym') . random_int(10000000, 99999999))
                             ->disabled()
                             ->dehydrated()
                             ->required()
@@ -92,7 +94,8 @@ class ShippingResource extends Resource
                                 'Terkirim' => 'heroicon-m-check-badge',
                                 'Dibatalkan' => 'heroicon-m-x-circle',
                             ])
-                            ->default('Baru'),
+                            ->default('Baru')
+                            ->live(),
                     ])
                     ->columns(2),
 
@@ -139,10 +142,9 @@ class ShippingResource extends Resource
 
                         Forms\Components\TextInput::make('price')
                             ->label('Harga')
-                            ->dehydrated()
                             ->prefix('Rp')
-                            ->numeric()
                             ->disabled()
+                            ->dehydrated()
                             ->required(),
                     ]),
 
@@ -166,7 +168,7 @@ class ShippingResource extends Resource
                             ->required(),
                     ]),
 
-                Forms\Components\DatePicker::make('shipping_date')
+                Forms\Components\DatePicker::make('date')
                     ->label('Tanggal Pemesanan')
                     ->required(),
 
@@ -214,7 +216,7 @@ class ShippingResource extends Resource
                     ->label('Kota Tujuan')
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('shipping_date')
+                Tables\Columns\TextColumn::make('date')
                     ->label('Tanggal Pemesanan')
                     ->badge()
                     ->searchable(),
@@ -237,6 +239,11 @@ class ShippingResource extends Resource
             ])
 
             ->actions([
+                Tables\Actions\EditAction::make()
+                    ->label('Ubah Status')
+                    ->form([
+                        ToggleButtons::make('status')
+                    ]),
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make(),
                     Tables\Actions\EditAction::make(),

@@ -56,7 +56,7 @@ class DatabaseSeeder extends Seeder
             'items_id' => '1',
             'quantity' => '20',
             'item_weight' => '10',
-            'shipping_date' => '2024-03-19',
+            'date' => '2024-03-19',
             'description' => 'XXXXX',
             'costs_id' => '1',
             'price' => '50000'

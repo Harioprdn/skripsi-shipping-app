@@ -9,6 +9,7 @@ use App\Models\Shipping;
 use App\Models\ShippingNote;
 use DateTime;
 use Filament\Actions\DeleteAction;
+use Filament\Actions\ViewAction;
 use Filament\Forms;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\TextInput;
@@ -45,14 +46,13 @@ class ShippingNoteResource extends Resource
 
                 Forms\Components\Repeater::make('shippings_id')
                     ->label('Pilih Pengiriman')
-
                     ->schema([
-                        Forms\Components\Select::make('shippings_number')
+                        Forms\Components\Select::make('shippings_id')
                             ->options(Shipping::all()->pluck('number', 'id',)->toArray())
                             ->required()
                             ->reactive()
                             ->distinct()
-                            ->afterStateUpdated(fn ($state, Forms\Set $set) => $set('shipping_date', Shipping::find($state)?->shipping_date ?? 0))
+                            ->afterStateUpdated(fn ($state, Forms\Set $set) => $set('date', Shipping::find($state)?->date ?? 0))
                             ->afterStateUpdated(fn ($state, Forms\Set $set) => $set('status', Shipping::find($state)?->status ?? 0))
                             ->label('Pilih Pengiriman')
                             ->disableOptionsWhenSelectedInSiblingRepeaterItems()
@@ -61,11 +61,11 @@ class ShippingNoteResource extends Resource
                                 'md' => 3
                             ]),
 
-                        Forms\Components\TextInput::make('shipping_date')
+                        Forms\Components\TextInput::make('date')
                             ->required()
                             ->label('Tanggal')
-                            ->dehydrated()
                             ->disabled()
+                            ->dehydrated()
                             ->columnSpan([
                                 'md' => 3
                             ]),
@@ -93,8 +93,8 @@ class ShippingNoteResource extends Resource
 
                             ->required()
                             ->label('Status')
+                            ->live()
                             ->dehydrated()
-                            ->disabled()
                             ->columnSpan([
                                 'md' => 4
                             ])
@@ -109,7 +109,7 @@ class ShippingNoteResource extends Resource
                 Forms\Components\TextInput::make('number_plate')
                     ->label('Plat Nomor'),
 
-                Forms\Components\DatePicker::make('date')
+                Forms\Components\DatePicker::make('shippings_date')
                     ->label('Tanggal'),
             ])
             ->columns(1);
@@ -131,8 +131,9 @@ class ShippingNoteResource extends Resource
                 Tables\Columns\TextColumn::make('number_plate')
                     ->label('Plat Nomor'),
 
-                Tables\Columns\TextColumn::make('date')
+                Tables\Columns\TextColumn::make('shippings_date')
                     ->label('Tanggal')
+                    ->badge()
                     ->searchable(),
 
             ])
@@ -140,6 +141,7 @@ class ShippingNoteResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make()
             ])

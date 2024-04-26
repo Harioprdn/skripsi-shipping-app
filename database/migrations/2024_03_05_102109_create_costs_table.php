@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('cities_id')->nullable()->cascadeOnDelete();
             $table->foreignId('shippings_id')->nullable()->cascadeOnDelete();
-            $table->decimal('price', 10, 2);
+            $table->decimal('price');
             $table->timestamps();
         });
     }
