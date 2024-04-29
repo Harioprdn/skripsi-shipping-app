@@ -20,3 +20,13 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/login', function () {
 //     return redirect(route('filament.admin.auth.login'));
 // })->name('login');
+
+Route::get('/', \App\Livewire\Home::class)->name('home');
+
+// Route::get('/service', \App\Http\Livewire\ListServices::class)->name('services');
+
+// Route::get('/service/{service}', \App\Http\Livewire\ShowService::class)->name('service');
+
+// Route::get('/borrow-book', \App\Http\Livewire\Borrow::class)->name('borrow-book');
+
+// Route::get('/borrow-room', \App\Http\Livewire\BorrowRoom::class)->name('borrow-room');

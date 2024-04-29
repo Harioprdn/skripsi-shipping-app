@@ -48,7 +48,7 @@ class ShippingNoteResource extends Resource
                     ->label('Pilih Pengiriman')
                     ->schema([
                         Forms\Components\Select::make('shippings_id')
-                            ->options(Shipping::all()->pluck('number', 'id',)->toArray())
+                            ->options(Shipping::all()->pluck('number', 'id')->toArray())
                             ->required()
                             ->reactive()
                             ->distinct()
@@ -94,6 +94,7 @@ class ShippingNoteResource extends Resource
                             ->required()
                             ->label('Status')
                             ->live()
+                            ->disabled()
                             ->dehydrated()
                             ->columnSpan([
                                 'md' => 4

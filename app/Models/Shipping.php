@@ -34,11 +34,4 @@ class Shipping extends Model
     {
         return $this->hasMany(ShippingNote::class);
     }
-
-    public static function generateNomorResi()
-    {
-        // Logika untuk meng-generate nomor resi
-        // Misalnya, menggunakan kombinasi tanggal dan angka acak
-        return 'MC' . date('Ymd') . mt_rand(1000, 9999);
-    }
 }

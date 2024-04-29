@@ -1,0 +1,36 @@
+<nav class="fixed top-0 z-50 bg-transparent w-screen transition-colors" x-data="{ scrolled: false }" @scroll.window="scrolled = window.scrollY > 40" :class="scrolled && 'bg-gray-600'">
+    <div class="mx-auto container flex justify-between items-center py-6">
+        <div>
+            <a href="{{ route('home') }}">
+                <img src="{{ asset('assets/logolight.svg') }}" alt="logo" class="max-h-10">
+            </a>
+        </div>
+        <div class="text-white uppercase">
+            <ul class="flex gap-8">
+                <li>
+                    <a href="" class="hover:text-primary-200 transition-colors">Home</a>
+                </li>
+                <li>
+                    <a href="" class="hover:text-primary-200 transition-colors">Cek Resi</a>
+                </li>
+                <li>
+                    <a href="" class="hover:text-primary-200 transition-colors">Cek Biaya Pengiriman</a>
+                </li>
+                <li>
+                    <a href="" class="hover:text-primary-200 transition-colors">Hubungi Kami</a>
+                </li>
+
+                @auth()
+                <li>
+                    <a href=" {{ route('filament.admin.auth.login') }} " target="_blank" class="hover:text-primary-200 transition-colors">Dashboard</a>
+                </li>
+                @else()
+                <li>
+                    <a href=" {{ route('filament.admin.auth.login') }} " target="_blank" class="hover:text-primary-200 transition-colors">Login</a>
+                </li>
+                @endauth
+
+            </ul>
+        </div>
+    </div>
+</nav>

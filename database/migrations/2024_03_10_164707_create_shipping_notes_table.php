@@ -20,7 +20,7 @@ return new class extends Migration
             $table->json('shippings_id')->nullable()->constrained('shippings')->cascadeOnDelete();
             $table->string('vehicle');
             $table->string('number_plate');
-            $table->dateTime('shippings_date');
+            $table->date('shippings_date');
             $table->timestamps();
         });
     }

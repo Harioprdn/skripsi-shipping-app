@@ -239,13 +239,8 @@ class ShippingResource extends Resource
             ])
 
             ->actions([
-                Tables\Actions\EditAction::make()
-                    ->label('Ubah Status')
-                    ->form([
-                        ToggleButtons::make('status')
-                    ]),
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\ActionGroup::make([
-                    Tables\Actions\ViewAction::make(),
                     Tables\Actions\EditAction::make(),
                     Tables\Actions\DeleteAction::make(),
 
