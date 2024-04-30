@@ -24,6 +24,8 @@ class CostResource extends Resource
 
     protected static ?string $navigationGroup = 'Master';
 
+    protected static ?int $navigationSort = 1;
+
     protected static ?string $label = 'Biaya Pengiriman';
 
     protected static ?string $pluralLabel = 'Biaya Pengiriman';

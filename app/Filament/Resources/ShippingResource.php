@@ -33,6 +33,8 @@ class ShippingResource extends Resource
 
     protected static ?string $navigationGroup = 'Transaksi';
 
+    protected static ?int $navigationSort = 2;
+
     protected static ?string $label = 'Pengiriman';
 
     protected static ?string $pluralLabel = 'Pengiriman';

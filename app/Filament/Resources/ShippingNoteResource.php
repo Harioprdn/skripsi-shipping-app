@@ -28,6 +28,8 @@ class ShippingNoteResource extends Resource
 
     protected static ?string $navigationGroup = 'Transaksi';
 
+    protected static ?int $navigationSort = 2;
+
     protected static ?string $label = 'Surat Jalan';
 
     protected static ?string $pluralLabel = 'Surat Jalan';
@@ -105,13 +107,16 @@ class ShippingNoteResource extends Resource
                     ]),
 
                 Forms\Components\TextInput::make('vehicle')
-                    ->label('Kendaraan'),
+                    ->label('Kendaraan')
+                    ->required(),
 
                 Forms\Components\TextInput::make('number_plate')
-                    ->label('Plat Nomor'),
+                    ->label('Plat Nomor')
+                    ->required(),
 
                 Forms\Components\DatePicker::make('shippings_date')
-                    ->label('Tanggal'),
+                    ->label('Tanggal')
+                    ->required(),
             ])
             ->columns(1);
     }

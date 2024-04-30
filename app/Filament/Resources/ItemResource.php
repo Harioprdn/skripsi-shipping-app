@@ -22,6 +22,8 @@ class ItemResource extends Resource
 
     protected static ?string $navigationGroup = 'Master';
 
+    protected static ?int $navigationSort = 1;
+
     protected static ?string $label = 'Jenis Barang';
 
     protected static ?string $pluralLabel = 'Jenis Barang';
