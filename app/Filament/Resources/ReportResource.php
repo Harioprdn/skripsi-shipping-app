@@ -6,6 +6,7 @@ use App\Filament\Resources\ReportResource\Pages;
 use App\Filament\Resources\ReportResource\RelationManagers;
 use App\Models\Report;
 use Filament\Forms;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -17,35 +18,46 @@ class ReportResource extends Resource
 {
     protected static ?string $model = Report::class;
 
+    protected static ?string $slug = 'reports';
+
     protected static ?string $navigationIcon = 'heroicon-o-exclamation-circle';
 
     protected static ?string $label = 'Laporan Pelanggan';
 
     protected static ?int $navigationSort = 0;
 
+    public static function getFormSchema(): array
+    {
+        return [
+            Section::make()
+                ->description('Silahkan isi formulir untuk mengirimkan pesan')
+                ->schema([
+                    Forms\Components\TextInput::make('name')
+                        ->label('Nama')
+                        ->required(),
+
+                    Forms\Components\TextInput::make('email')
+                        ->label('Email'),
+
+                    Forms\Components\TextInput::make('phone')
+                        ->label('Nomor Handphone')
+                        ->required(),
+
+                    Forms\Components\TextInput::make('subject')
+                        ->label('Subjek')
+                        ->required(),
+
+                    Forms\Components\Textarea::make('message')
+                        ->label('Pesan')
+                        ->required()
+                ])
+        ];
+    }
+
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->label('Nama')
-                    ->required(),
-
-                Forms\Components\TextInput::make('email')
-                    ->label('Email'),
-
-                Forms\Components\TextInput::make('phone')
-                    ->label('Nomor Handphone')
-                    ->required(),
-
-                Forms\Components\TextInput::make('subject')
-                    ->label('Subjek')
-                    ->required(),
-
-                Forms\Components\Textarea::make('message')
-                    ->label('Pesan')
-                    ->required()
-            ]);
+            ->schema(static::getFormSchema());
     }
 
     public static function table(Table $table): Table
@@ -87,6 +99,7 @@ class ReportResource extends Resource
             'index' => Pages\ListReports::route('/'),
             'create' => Pages\CreateReport::route('/create'),
             'edit' => Pages\EditReport::route('/{record}/edit'),
+            'view' => Pages\ViewReport::route('/{record}'),
         ];
     }
 }

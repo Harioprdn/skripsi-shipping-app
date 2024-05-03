@@ -2,31 +2,31 @@
     <div class="mx-auto container flex justify-between items-center py-6">
         <div>
             <a href="{{ route('home') }}">
-                <img src="{{ asset('assets/logolight.svg') }}" alt="logo" class="max-h-10">
+                <img src="{{ asset('assets/logolight.png') }}" alt="logo" class="max-h-6">
             </a>
         </div>
         <div class="text-white uppercase">
             <ul class="flex gap-8">
                 <li>
-                    <a href="" class="hover:text-primary-200 transition-colors">Home</a>
+                    <a href=" {{ route('home') }} " class="hover:text-info-200 transition-colors">Home</a>
                 </li>
                 <li>
-                    <a href="" class="hover:text-primary-200 transition-colors">Cek Resi</a>
+                    <a href="" class="hover:text-info-200 transition-colors">Cek Resi</a>
                 </li>
                 <li>
-                    <a href="" class="hover:text-primary-200 transition-colors">Cek Biaya Pengiriman</a>
+                    <a href="" class="hover:text-info-200 transition-colors">Cek Biaya Pengiriman</a>
                 </li>
                 <li>
-                    <a href="" class="hover:text-primary-200 transition-colors">Hubungi Kami</a>
+                    <a href="{{ route('contact-us') }}" class="hover:text-info-200 transition-colors">Hubungi Kami</a>
                 </li>
 
                 @auth()
                 <li>
-                    <a href=" {{ route('filament.admin.auth.login') }} " target="_blank" class="hover:text-primary-200 transition-colors">Dashboard</a>
+                    <a href=" {{ route('filament.admin.auth.login') }} " target="_blank" class="hover:text-info-200 transition-colors">Dashboard</a>
                 </li>
                 @else()
                 <li>
-                    <a href=" {{ route('filament.admin.auth.login') }} " target="_blank" class="hover:text-primary-200 transition-colors">Login</a>
+                    <a href=" {{ route('filament.admin.auth.login') }} " target="_blank" class="hover:text-info-200 transition-colors">Login</a>
                 </li>
                 @endauth
 
