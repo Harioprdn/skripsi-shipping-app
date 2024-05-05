@@ -23,7 +23,6 @@
 <body class="antialiased">
     @livewire('navbar')
     {{ $slot }}
-
     @livewire('notifications')
     @livewire('footer')
     @filamentScripts

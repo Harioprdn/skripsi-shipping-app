@@ -11,10 +11,10 @@
                     <a href=" {{ route('home') }} " class="hover:text-info-200 transition-colors">Home</a>
                 </li>
                 <li>
-                    <a href="" class="hover:text-info-200 transition-colors">Cek Resi</a>
+                    <a href=" {{ route('receipt') }}" class="hover:text-info-200 transition-colors">Cek Resi</a>
                 </li>
                 <li>
-                    <a href="" class="hover:text-info-200 transition-colors">Cek Biaya Pengiriman</a>
+                    <a href=" {{ route('cost') }} " class="hover:text-info-200 transition-colors">Cek Biaya Pengiriman</a>
                 </li>
                 <li>
                     <a href="{{ route('contact-us') }}" class="hover:text-info-200 transition-colors">Hubungi Kami</a>

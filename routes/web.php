@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ReceiptPDFController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,23 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-// Route::get('/login', function () {
-//     return redirect(route('filament.admin.auth.login'));
-// })->name('login');
-
 Route::get('/', \App\Livewire\Home::class)->name('home');
 
 Route::get('/contact-us', \App\Livewire\ContactUs::class)->name('contact-us');
 
+Route::get('/receiptpdf/{id}', [\App\Http\Controllers\ReceiptPDFController::class, 'receiptpdf'])->name('receipt.pdf');
 
-// Route::get('/service', \App\Http\Livewire\ListServices::class)->name('services');
+Route::get('/receipt', \App\Livewire\Receipt::class)->name('receipt');
 
-// Route::get('/service/{service}', \App\Http\Livewire\ShowService::class)->name('service');
-
-// Route::get('/borrow-book', \App\Http\Livewire\Borrow::class)->name('borrow-book');
-
-// Route::get('/borrow-room', \App\Http\Livewire\BorrowRoom::class)->name('borrow-room');
+Route::get('/cost', \App\Livewire\Cost::class)->name('cost');
