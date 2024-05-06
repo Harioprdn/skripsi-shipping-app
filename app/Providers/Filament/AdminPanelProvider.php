@@ -8,6 +8,7 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
+use Filament\Support\Assets\Asset;
 use Filament\Support\Colors\Color;
 use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -28,6 +29,8 @@ class AdminPanelProvider extends PanelProvider
             ->path('dashboard')
             ->login()
             ->databaseNotifications()
+            ->brandLogo('/assets/logolightadmin.png')
+            ->darkModeBrandLogo('/assets/logodarkadmin.png')
             ->colors([
                 'primary' => Color::Amber,
             ])

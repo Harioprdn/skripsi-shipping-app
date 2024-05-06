@@ -268,6 +268,7 @@ class ShippingResource extends Resource
             'index' => Pages\ListShippings::route('/'),
             'create' => Pages\CreateShipping::route('/create'),
             'edit' => Pages\EditShipping::route('/{record}/edit'),
+            'view' => Pages\ViewShipping::route('/{record}'),
         ];
     }
 }

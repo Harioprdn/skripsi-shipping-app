@@ -5,27 +5,26 @@ namespace App\Http\Controllers;
 use App\Livewire\Receipt;
 use App\Models\Shipping;
 use Illuminate\Http\Request;
-use Barryvdh\DomPDF\Facade\PDF;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\App;
 
 class ReceiptPDFController extends Controller
 {
     public function receiptPDF($id)
     {
-        $receipt = Shipping::with(['contracts', 'contracts.surveyors', 'contracts.industries', 'contracts.contract_types', 'contracts.assets'])
+        $receipt = Shipping::with(['costs'])
             ->where('id', $id)
             ->findOrFail($id);
 
         $data = [
-            'date' => $receipt->tanggal_penugasan,
-            'assignment' => $receipt,
-            'location' => $receipt->contracts->lokasi_proyek,
-            'asset' => $receipt->contracts->assets->type,
+            'receipt' => $receipt,
+            'price' => $receipt->costs->price,
         ];
 
-        $pdf = App::make('dompdf.wrapper');
-        $pdf->loadHTML('<h1>Test</>');
+        $pdf = Pdf::loadView('receiptPDF', $data);
 
-        return $pdf->download('ReceiptLetter.pdf');
+        set_time_limit(300);
+
+        return $pdf->stream('ReceiptLetter.pdf');
     }
 }
