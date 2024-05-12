@@ -4,35 +4,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resi Pengiriman Barang</title>
+    <title>Resi Pengiriman</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            margin: 1.25in;
+            font-size: 0.875rem;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+        }
+
+        .info-table th,
+        .info-table td {
+            border: 1px solid #e2e8f0;
+            padding: 0.5rem;
+        }
+
+        .info-table th {
+            background-color: #f7fafc;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        .info-table td {
+            text-align: left;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .footer p {
+            font-size: 0.75rem;
+            color: #a0aec0;
+        }
+    </style>
 </head>
 
 <body>
     <div class="container">
-        <h1>Resi Pengiriman Barang</h1>
-        <div class="info">
-            <p><strong>Nomor Resi:</strong> {{ $receipt->number }}</p>
-            <p><strong>Nama Pengirim:</strong> {{ $receipt->sender_name }}</p>
-            <p><strong>Alamat Pengirim:</strong> {{ $receipt->sender_address }}</p>
-            <p><strong>Nomor Telepon Pengirim:</strong> {{ $receipt->sender_phone }}</p>
-            <p><strong>Nama Penerima:</strong> {{ $receipt->receiver_name }}</p>
-            <p><strong>Alamat Penerima:</strong> {{ $receipt->receiver_address }}</p>
-            <p><strong>Nomor Telepon Penerima:</strong> {{ $receipt->receiver_phone }}</p>
-            <p><strong>Berat Barang:</strong> {{ $receipt->item_weight }} kg</p>
-            <p><strong>Tanggal Pemesanan:</strong> {{ $receipt->date }}</p>
-            <p><strong>Biaya Pengiriman:</strong> Rp {{ number_format($receipt->costs->price, 0, ',', '.') }}</p>
+        <div class="header">
+            <h1>Resi Pengiriman</h1>
+            <p>{{ date('Y-m-d H:i:s') }}</p>
         </div>
-        <table>
+        <table class="info-table">
             <thead>
                 <tr>
-                    <th>No.</th>
-                    <th>Nama Barang</th>
-                    <th>Jumlah</th>
-                    <th>Harga Satuan</th>
-                    <th>Subtotal</th>
+                    <th>Nomor Resi</th>
+                    <th>Pengirim</th>
+                    <th>Penerima</th>
+                    <th>Penerima</th>
+                    <th>Penerima</th>
+                    <th>Penerima</th>
+                    <th>Penerima</th>
+                    <th>Penerima</th>
+                    <th>Penerima</th>
                 </tr>
             </thead>
+            <tbody>
+                <tr>
+                    <td>{{ $receipt->number }}</td>
+                    <td>{{ $receipt->sender_name }}</td>
+                    <td>{{ $receipt->receiver_name }}</td>
+                </tr>
+                <!-- Tambahkan baris tambahan sesuai kebutuhan -->
+            </tbody>
         </table>
+        <div class="footer">
+            <p>Terima kasih telah menggunakan layanan kami.</p>
+        </div>
     </div>
 </body>
 

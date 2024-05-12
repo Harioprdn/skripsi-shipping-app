@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ReceiptPDFController;
+use App\Livewire\Receipt;
+use App\Livewire\ResultReceipt;
 use Illuminate\Support\Facades\Route;
 
 /*
