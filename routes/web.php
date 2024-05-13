@@ -24,4 +24,4 @@ Route::get('/receiptpdf/{id}', [\App\Http\Controllers\ReceiptPDFController::clas
 
 Route::get('/receipt', \App\Livewire\Receipt::class)->name('receipt');
 
-Route::get('/cost', \App\Livewire\Cost::class)->name('cost');
+Route::get('/show-costs', \App\Livewire\ShowCosts::class)->name('show-costs');

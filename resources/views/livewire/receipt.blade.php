@@ -3,9 +3,12 @@
 <div>
     @livewire('header2', ['title' => 'Cek Resi Pengiriman'])
 
+    <!-- resources/views/livewire/check-receipt.blade.php -->
+
     <div class="max-w-xl mx-auto p-4">
-        <form wire:submit.prevent="checkReceipt" class="shadow-md rounded-xl px-8 py-6 bg-white mt-10">
+        <form wire:submit.prevent="checkReceipt" class="shadow-md rounded-xl px-8 py-6 bg-white mt-8">
             <div class="mb-6">
+                <label for="number" class="block text-gray-700 text-sm font-bold mb-2">Masukkan Resi:</label>
                 <input type="text" wire:model="number" id="number" name="number" class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 @error('number') <span class="text-red-500">{{ $message }}</span> @enderror
             </div>
@@ -19,7 +22,7 @@
         <!-- Detail Pengiriman atau Notifikasi -->
         @if($shipping)
         <div class="shadow-md rounded-xl mt-6 bg-white">
-            <h2 class="text-center font-bold px-4 py-2 border-b border-gray-200">Detail Pengiriman</h2>
+            <h2 class="text-lg font-bold px-4 py-2 border-b border-gray-200">Detail Pengiriman</h2>
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200">
                     <tbody class="bg-white divide-y divide-gray-200">
@@ -59,7 +62,6 @@
                             <td class="px-6 py-4 whitespace-nowrap font-semibold">Biaya Pengiriman</td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ $shipping->price }}</td>
                         </tr>
-
                     </tbody>
                 </table>
             </div>
@@ -70,5 +72,7 @@
         </div>
         @endif
     </div>
+
+</div>
 
 </div>

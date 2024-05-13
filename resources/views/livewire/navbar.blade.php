@@ -14,7 +14,7 @@
                     <a href=" {{ route('receipt') }}" class="hover:text-info-200 transition-colors">Cek Resi</a>
                 </li>
                 <li>
-                    <a href=" {{ route('cost') }} " class="hover:text-info-200 transition-colors">Cek Biaya Pengiriman</a>
+                    <a href=" {{ route('show-costs') }} " class="hover:text-info-200 transition-colors">Biaya Pengiriman</a>
                 </li>
                 <li>
                     <a href="{{ route('contact-us') }}" class="hover:text-info-200 transition-colors">Hubungi Kami</a>

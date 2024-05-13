@@ -9,11 +9,13 @@ use App\Models\City;
 use App\Models\Item;
 use Filament\Actions\DeleteAction;
 use Filament\Forms;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class CostResource extends Resource
@@ -47,19 +49,23 @@ class CostResource extends Resource
             ]);
     }
 
+    public static function getTableColumns(): array
+    {
+        return [
+            Tables\Columns\TextColumn::make('cities.name')
+                ->label('Kota Tujuan')
+                ->searchable(),
+
+            Tables\Columns\TextColumn::make('price')
+                ->prefix('Rp ')
+                ->label('Biaya Pengiriman'),
+        ];
+    }
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([
-
-                Tables\Columns\TextColumn::make('cities.name')
-                    ->label('Kota Tujuan')
-                    ->searchable(),
-
-                Tables\Columns\TextColumn::make('price')
-                    ->prefix('Rp ')
-                    ->label('Biaya Pengiriman'),
-            ])
+            ->columns(static::getTableColumns())
+            ->query(Cost::query())
             ->filters([
                 //
             ])
