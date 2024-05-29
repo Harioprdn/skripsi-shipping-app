@@ -28,7 +28,7 @@ class ShippingNoteResource extends Resource
 
     protected static ?string $navigationGroup = 'Transaksi';
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 3;
 
     protected static ?string $label = 'Surat Jalan';
 
@@ -115,7 +115,7 @@ class ShippingNoteResource extends Resource
                     ->required(),
 
                 Forms\Components\DatePicker::make('shippings_date')
-                    ->label('Tanggal')
+                    ->label('Tanggal Pengiriman')
                     ->required(),
             ])
             ->columns(1);
@@ -138,7 +138,7 @@ class ShippingNoteResource extends Resource
                     ->label('Plat Nomor'),
 
                 Tables\Columns\TextColumn::make('shippings_date')
-                    ->label('Tanggal')
+                    ->label('Tanggal Pengiriman')
                     ->badge()
                     ->searchable(),
 

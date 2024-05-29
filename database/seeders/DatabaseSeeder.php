@@ -46,16 +46,17 @@ class DatabaseSeeder extends Seeder
         ]);
 
         DB::table('shippings')->insert([
-            'number' => 'MC1234567890',
+            'number' => 'MC123456789012',
             'sender_name' => 'Hario',
             'sender_address' => 'Semarang',
             'sender_phone' => '081226215811',
-            'receiver_name' => 'Ragil',
+            'receiver_name' => 'Budi',
             'receiver_address' => 'Jalan Wulan No.10',
             'receiver_phone' => '081234567890',
             'items_id' => '1',
             'quantity' => '20',
             'item_weight' => '10',
+            'payment' => 'Penerima',
             'date' => '2024-03-19',
             'description' => 'XXXXX',
             'costs_id' => '1',

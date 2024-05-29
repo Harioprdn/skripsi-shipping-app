@@ -14,6 +14,8 @@ use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\ToggleButtons;
 use Filament\Forms\Form;
 use Filament\Forms\FormsComponent;
@@ -29,7 +31,7 @@ class ShippingResource extends Resource
 {
     protected static ?string $model = Shipping::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-truck';
+    protected static ?string $navigationIcon = 'heroicon-o-rocket-launch';
 
     protected static ?string $navigationGroup = 'Transaksi';
 
@@ -101,61 +103,58 @@ class ShippingResource extends Resource
                     ])
                     ->columns(2),
 
-                Forms\Components\Section::make('Data Pengirim')
+                Forms\Components\Section::make('')
                     ->schema([
-                        Forms\Components\TextInput::make('sender_name')
-                            ->label('Nama Pengirim')
-                            ->required(),
+                        Forms\Components\Section::make('Data Pengirim')
+                            ->schema([
+                                Forms\Components\TextInput::make('sender_name')
+                                    ->label('Nama Pengirim')
+                                    ->required(),
 
-                        Forms\Components\TextInput::make('sender_address')
-                            ->label('Alamat Pengirim')
-                            ->required(),
+                                Forms\Components\TextInput::make('sender_address')
+                                    ->label('Alamat Pengirim')
+                                    ->required(),
 
-                        Forms\Components\TextInput::make('sender_phone')
-                            ->label('Telp. Pengirim')
-                            ->required(),
-                    ]),
+                                Forms\Components\TextInput::make('sender_phone')
+                                    ->label('Telp. Pengirim')
+                                    ->required(),
+                            ])
+                            ->columnSpan(1),
 
-                Forms\Components\Section::make('Data Penerima')
-                    ->schema([
-                        Forms\Components\TextInput::make('receiver_name')
-                            ->label('Nama Penerima')
-                            ->required(),
+                        Forms\Components\Section::make('Data Penerima')
+                            ->schema([
+                                Forms\Components\TextInput::make('receiver_name')
+                                    ->label('Nama Penerima')
+                                    ->required(),
 
-                        Forms\Components\TextInput::make('receiver_address')
-                            ->label('Alamat Penerima')
-                            ->required(),
+                                Forms\Components\TextInput::make('receiver_address')
+                                    ->label('Alamat Penerima')
+                                    ->required(),
 
-                        Forms\Components\TextInput::make('receiver_phone')
-                            ->label('Telp. Penerima')
-                            ->required(),
-                    ]),
+                                Forms\Components\TextInput::make('receiver_phone')
+                                    ->label('Telp. Penerima')
+                                    ->required(),
+                            ])
+                            ->columnSpan(1),
+                    ])
+                    ->columns(2),
 
-                Forms\Components\Section::make('Biaya Pengiriman')
+
+
+                Forms\Components\Section::make('Informasi Pengiriman')
                     ->schema([
                         Forms\Components\Select::make('costs_id')
                             ->options(Cost::all()->pluck('cities.name', 'id')->toArray())
                             ->required()
                             ->afterStateUpdated(fn ($state, Forms\Set $set) => $set('price', Cost::find($state)?->price ?? 0))
                             ->reactive()
-                            ->distinct()
                             ->label('Kota Tujuan')
                             ->searchable(),
-
-                        Forms\Components\TextInput::make('price')
-                            ->label('Harga')
-                            ->prefix('Rp')
-                            ->disabled()
-                            ->dehydrated()
-                            ->required(),
-                    ]),
-
-                Forms\Components\Section::make('Informasi Barang')
-                    ->schema([
 
                         Forms\Components\Select::make('items_id')
                             ->options(Item::all()->pluck('name', 'id')->toArray())
                             ->label('Jenis Barang')
+                            ->searchable()
                             ->required(),
 
                         Forms\Components\TextInput::make('quantity')
@@ -168,7 +167,29 @@ class ShippingResource extends Resource
                             ->numeric()
                             ->suffix(' Kg')
                             ->required(),
+
                     ]),
+
+                Forms\Components\Section::make('Informasi Pembayaran')
+                    ->schema([
+                        Forms\Components\ToggleButtons::make('payment')
+                            ->inline()
+                            ->required()
+                            ->label('Pembayaran dilakukan oleh: ')
+                            ->options([
+                                'Pengirim' => 'Pengirim',
+                                'Penerima' => 'Penerima',
+                            ]),
+
+                        Forms\Components\TextInput::make('price')
+                            ->label('Biaya')
+                            ->prefix('Rp. ')
+                            ->numeric()
+                            ->dehydrated()
+                            ->required(),
+
+                    ])
+                    ->columns(2),
 
                 Forms\Components\DatePicker::make('date')
                     ->label('Tanggal Pemesanan')
@@ -178,7 +199,8 @@ class ShippingResource extends Resource
                     ->label('Keterangan')
                     ->nullable(),
 
-            ]);
+            ])
+            ->columns(1);
     }
 
     public static function table(Table $table): Table
@@ -207,23 +229,27 @@ class ShippingResource extends Resource
                     }),
 
                 Tables\Columns\TextColumn::make('sender_name')
-                    ->label('Nama Pengirim')
+                    ->label('Pengirim')
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('receiver_name')
-                    ->label('Nama Penerima')
+                    ->label('Penerima')
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('costs.cities.name')
-                    ->label('Kota Tujuan')
+                    ->label('Tujuan')
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('date')
                     ->label('Tanggal Pemesanan')
+                    ->sortable()
                     ->badge()
                     ->searchable(),
 
-
+                Tables\Columns\TextColumn::make('payment')
+                    ->label('Pembayaran Oleh')
+                    ->badge()
+                    ->color('warning'),
 
             ])
             ->filters([
@@ -236,13 +262,27 @@ class ShippingResource extends Resource
                 //         'Dibatalkan' => 'Dibatalkan',
                 //     ])
 
-                Tables\Filters\Filter::make('status')
-                    ->label('Status')
+                Tables\Filters\SelectFilter::make('status')
+                    ->options([
+                        'Baru' => 'Baru',
+                        'Diproses' => 'Diproses',
+                        'Terkirim' => 'Terkirim',
+                        'Dibatalkan' => 'Dibatalkan'
+                    ])
+                    ->attribute('status'),
+
+                Tables\Filters\SelectFilter::make('payment')
+                    ->options([
+                        'Pengirim' => 'Pengirim',
+                        'Penerima' => 'Penerima',
+                    ])
+                    ->attribute('payment'),
+
             ])
 
             ->actions([
-                Tables\Actions\ViewAction::make(),
                 Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
                     Tables\Actions\EditAction::make(),
                     Tables\Actions\DeleteAction::make(),
 

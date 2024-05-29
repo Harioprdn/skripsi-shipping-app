@@ -23,6 +23,7 @@ return new class extends Migration
             $table->foreignId('items_id')->constrained('items');
             $table->integer('quantity');
             $table->integer('item_weight');
+            $table->string('payment');
             $table->date('date');
             $table->text('description')->nullable();
             $table->foreignId('costs_id')->constrained('costs');

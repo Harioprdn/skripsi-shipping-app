@@ -20,11 +20,13 @@ class ReportResource extends Resource
 
     protected static ?string $slug = 'reports';
 
-    protected static ?string $navigationIcon = 'heroicon-o-exclamation-circle';
+    protected static ?string $navigationIcon = 'heroicon-o-bell-alert';
+
+    protected static ?string $navigationGroup = 'Laporan';
 
     protected static ?string $label = 'Laporan Pelanggan';
 
-    protected static ?int $navigationSort = 0;
+    protected static ?int $navigationSort = 3;
 
     public static function getFormSchema(): array
     {

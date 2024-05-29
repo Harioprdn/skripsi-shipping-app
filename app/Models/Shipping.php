@@ -15,6 +15,10 @@ class Shipping extends Model
         'id'
     ];
 
+    protected $casts = [
+        'paid' => 'boolean',
+    ];
+
     public function items(): BelongsTo
     {
         return $this->belongsTo(Item::class);

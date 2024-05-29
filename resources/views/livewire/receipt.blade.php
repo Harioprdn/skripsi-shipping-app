@@ -22,7 +22,7 @@
         <!-- Detail Pengiriman atau Notifikasi -->
         @if($shipping)
         <div class="shadow-md rounded-xl mt-6 bg-white">
-            <h2 class="text-lg font-bold px-4 py-2 border-b border-gray-200">Detail Pengiriman</h2>
+            <h2 class="text-lg font-bold px-4 py-2 border-b border-gray-200 text-center">Detail Pengiriman</h2>
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200">
                     <tbody class="bg-white divide-y divide-gray-200">

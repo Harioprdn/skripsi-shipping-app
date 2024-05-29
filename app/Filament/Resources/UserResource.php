@@ -22,7 +22,7 @@ class UserResource extends Resource
 
     protected static ?string $navigationGroup = 'Master';
 
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 0;
 
     protected static ?string $label = 'Admin';
 
