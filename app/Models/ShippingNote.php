@@ -24,6 +24,11 @@ class ShippingNote extends Model
         return $this->belongsTo(Driver::class);
     }
 
+    public function vehicles(): BelongsTo
+    {
+        return $this->belongsTo(Vehicle::class);
+    }
+
     public function shippings(): BelongsTo
     {
         return $this->belongsTo(Shipping::class);

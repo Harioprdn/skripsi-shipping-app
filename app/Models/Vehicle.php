@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Vehicle extends Model
 {
@@ -12,4 +13,9 @@ class Vehicle extends Model
     protected $guarded = [
         'id',
     ];
+
+    public function shippingnotes(): HasMany
+    {
+        return $this->hasMany(ShippingNote::class);
+    }
 }

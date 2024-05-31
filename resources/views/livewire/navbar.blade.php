@@ -17,6 +17,9 @@
                     <a href=" {{ route('show-costs') }} " class="hover:text-info-200 transition-colors">Biaya Pengiriman</a>
                 </li>
                 <li>
+                    <a href=" {{ route('feedback') }} " class="hover:text-info-200 transition-colors">Ulasan</a>
+                </li>
+                <li>
                     <a href="{{ route('contact-us') }}" class="hover:text-info-200 transition-colors">Hubungi Kami</a>
                 </li>
 

@@ -11,15 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('feedbacks', function (Blueprint $table) {
+        Schema::create('feedback', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('email');
+            $table->string('phone');
             $table->string('receipt_number');
-            $table->boolean('rating');
-            $table->string('title');
-            $table->longText('description');
-            $table->dateTime('date');
+            $table->enum('rating', ['Like', 'Dislike']);
+            $table->string('title')->nullable();
+            $table->longText('description')->nullable();
+            $table->date('date');
             $table->timestamps();
         });
     }

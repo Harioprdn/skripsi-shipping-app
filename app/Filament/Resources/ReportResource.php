@@ -22,9 +22,9 @@ class ReportResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-bell-alert';
 
-    protected static ?string $navigationGroup = 'Laporan';
+    protected static ?string $navigationGroup = 'Pesan';
 
-    protected static ?string $label = 'Laporan Pelanggan';
+    protected static ?string $label = 'Laporan';
 
     protected static ?int $navigationSort = 3;
 
@@ -34,16 +34,22 @@ class ReportResource extends Resource
             Section::make()
                 ->description('Silahkan isi formulir untuk mengirimkan pesan')
                 ->schema([
-                    Forms\Components\TextInput::make('name')
-                        ->label('Nama')
-                        ->required(),
 
-                    Forms\Components\TextInput::make('email')
-                        ->label('Email'),
+                    Forms\Components\Section::make('Data Diri')
+                        ->schema([
 
-                    Forms\Components\TextInput::make('phone')
-                        ->label('Nomor Handphone')
-                        ->required(),
+                            Forms\Components\TextInput::make('name')
+                                ->label('Nama')
+                                ->required(),
+
+                            Forms\Components\TextInput::make('email')
+                                ->label('Email'),
+
+                            Forms\Components\TextInput::make('phone')
+                                ->label('Nomor Handphone')
+                                ->required(),
+                        ]),
+
 
                     Forms\Components\TextInput::make('subject')
                         ->label('Subjek')

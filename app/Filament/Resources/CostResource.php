@@ -24,7 +24,7 @@ class CostResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-banknotes';
 
-    protected static ?string $navigationGroup = 'Master';
+    protected static ?string $navigationGroup = 'Data';
 
     protected static ?int $navigationSort = 1;
 

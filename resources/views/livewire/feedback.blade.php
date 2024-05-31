@@ -1,7 +1,7 @@
-@section('title','Hubungi Kami')
+@section('title','Ulasan')
 
 <div>
-    @livewire('header2', ['title' => 'Hubungi Kami'])
+    @livewire('header2', ['title' => 'Ulasan'])
 
     <div class="border rounded-2xl py-12 flex justify-center items-center">
         <div class="container max-w-xl">

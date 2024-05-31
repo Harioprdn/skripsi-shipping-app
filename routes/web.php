@@ -20,6 +20,8 @@ Route::get('/', \App\Livewire\Home::class)->name('home');
 
 Route::get('/contact-us', \App\Livewire\ContactUs::class)->name('contact-us');
 
+Route::get('/feedback', \App\Livewire\Feedback::class)->name('feedback');
+
 Route::get('/receiptpdf/{id}', [\App\Http\Controllers\ReceiptPDFController::class, 'receiptpdf'])->name('receipt.pdf');
 
 Route::get('/receipt', \App\Livewire\Receipt::class)->name('receipt');

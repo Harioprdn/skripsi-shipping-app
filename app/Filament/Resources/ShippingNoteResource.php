@@ -7,6 +7,7 @@ use App\Filament\Resources\ShippingNoteResource\RelationManagers;
 use App\Models\Driver;
 use App\Models\Shipping;
 use App\Models\ShippingNote;
+use App\Models\Vehicle;
 use DateTime;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\ViewAction;
@@ -106,12 +107,16 @@ class ShippingNoteResource extends Resource
                         'md' => 10
                     ]),
 
-                Forms\Components\TextInput::make('vehicle')
+                Forms\Components\Select::make('vehicles_id')
+                    ->options(Vehicle::all()->pluck('type', 'id')->toArray())
                     ->label('Kendaraan')
+                    ->searchable()
                     ->required(),
 
-                Forms\Components\TextInput::make('number_plate')
+                Forms\Components\Select::make('vehicles.number')
+                    ->options(Vehicle::all()->pluck('number', 'id')->toArray())
                     ->label('Plat Nomor')
+                    ->searchable()
                     ->required(),
 
                 Forms\Components\DatePicker::make('shippings_date')

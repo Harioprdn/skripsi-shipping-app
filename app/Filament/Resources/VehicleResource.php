@@ -19,7 +19,7 @@ class VehicleResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-truck';
 
-    protected static ?string $navigationGroup = 'Master';
+    protected static ?string $navigationGroup = 'Data';
 
     protected static ?string $label = 'Kendaraan';
 
@@ -29,13 +29,62 @@ class VehicleResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->label('Jenis Kendaraan')
-                    ->required(),
 
-                Forms\Components\TextInput::make('vehicle_number')
-                    ->label('Plat Nomor')
-                    ->required()
+                Forms\Components\Section::make('Informasi Umum')
+                    ->schema([
+
+                        Forms\Components\TextInput::make('type')
+                            ->label('Jenis Kendaraan')
+                            ->required(),
+
+                        Forms\Components\TextInput::make('brand')
+                            ->label('Merk')
+                            ->required(),
+
+                        Forms\Components\TextInput::make('number')
+                            ->label('Plat Nomor')
+                            ->required(),
+                    ]),
+
+
+                Forms\Components\Section::make('Pemeliharaan Kendaraan')
+                    ->schema([
+
+                        Forms\Components\DatePicker::make('production')
+                            ->label('Tanggal Pembuatan')
+                            ->required(),
+
+                        Forms\Components\DatePicker::make('tax_date')
+                            ->label('Pajak Berlaku Hingga')
+                            ->required(),
+
+                        Forms\Components\TextInput::make('tax_price')
+                            ->label('Biaya Pajak')
+                            ->prefix('Rp')
+                            ->required(),
+
+                        Forms\Components\DatePicker::make('oil_date')
+                            ->label('Penggatian Oli Terakhir')
+                            ->required(),
+
+                        Forms\Components\TextInput::make('machine_number')
+                            ->label('Nomor Mesin')
+                            ->required(),
+
+                        Forms\Components\TextInput::make('chassis_number')
+                            ->label('Nomor Rangka')
+                            ->required(),
+
+                        Forms\Components\TextInput::make('color')
+                            ->label('Warna')
+                            ->required(),
+
+                        Forms\Components\TextInput::make('fuel')
+                            ->label('Bahan Bakar')
+                            ->required(),
+                    ])
+                    ->columns(2),
+
             ]);
     }
 
@@ -43,11 +92,14 @@ class VehicleResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                Tables\Columns\TextColumn::make('type')
                     ->label('Jenis Kendaraan'),
 
-                Tables\Columns\TextColumn::make('vehicle_number')
-                    ->label('Plat Nomor')
+                Tables\Columns\TextColumn::make('brand')
+                    ->label('Merk'),
+
+                Tables\Columns\TextColumn::make('number')
+                    ->label('Plat Nomor'),
             ])
             ->filters([
                 //
