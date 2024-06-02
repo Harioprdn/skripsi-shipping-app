@@ -16,10 +16,10 @@ return new class extends Migration
     {
         Schema::create('shipping_notes', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('shippings_id')->nullable()->constrained('shippings')->cascadeOnDelete();
             $table->foreignId('drivers_id')->nullable()->constrained('drivers')->cascadeOnDelete();
             $table->foreignId('vehicles_id')->nullable()->constrained('vehicles')->cascadeOnDelete();
-            $table->json('shippings_id')->nullable()->constrained('shippings')->cascadeOnDelete();
-            $table->date('shippings_date');
+            $table->date('shipping_date');
             $table->timestamps();
         });
     }

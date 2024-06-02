@@ -27,8 +27,8 @@ return new class extends Migration
             $table->date('date');
             $table->text('description')->nullable();
             $table->foreignId('costs_id')->constrained('costs');
+            $table->foreignId('shipping_notes_id')->nullable();
             $table->decimal('price')->nullable();
-            $table->foreignId('shipping_note_id')->nullable();
             $table->timestamps();
         });
     }

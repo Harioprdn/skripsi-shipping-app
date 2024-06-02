@@ -47,17 +47,18 @@ class ShippingNoteResource extends Resource
                     ->label('Pilih Kurir')
                     ->searchable(),
 
-                Forms\Components\Repeater::make('shippings_id')
+                Forms\Components\Repeater::make('items')
                     ->label('Pilih Pengiriman')
+                    ->relationship()
                     ->schema([
-                        Forms\Components\Select::make('shippings_id')
+                        Forms\Components\Select::make('number')
                             ->options(Shipping::all()->pluck('number', 'id')->toArray())
                             ->required()
                             ->reactive()
                             ->distinct()
                             ->afterStateUpdated(fn ($state, Forms\Set $set) => $set('date', Shipping::find($state)?->date ?? 0))
                             ->afterStateUpdated(fn ($state, Forms\Set $set) => $set('status', Shipping::find($state)?->status ?? 0))
-                            ->label('Pilih Pengiriman')
+                            ->label('Nomor Resi')
                             ->disableOptionsWhenSelectedInSiblingRepeaterItems()
                             ->searchable()
                             ->columnSpan([
@@ -113,13 +114,13 @@ class ShippingNoteResource extends Resource
                     ->searchable()
                     ->required(),
 
-                Forms\Components\Select::make('vehicles.number')
+                Forms\Components\Select::make('vehicles_id')
                     ->options(Vehicle::all()->pluck('number', 'id')->toArray())
                     ->label('Plat Nomor')
                     ->searchable()
                     ->required(),
 
-                Forms\Components\DatePicker::make('shippings_date')
+                Forms\Components\DatePicker::make('shipping_date')
                     ->label('Tanggal Pengiriman')
                     ->required(),
             ])
@@ -135,14 +136,14 @@ class ShippingNoteResource extends Resource
                     ->label('Kurir')
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('vehicle')
+                Tables\Columns\TextColumn::make('vehicles.type')
                     ->label('Kendaraan')
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('number_plate')
+                Tables\Columns\TextColumn::make('vehicles.number')
                     ->label('Plat Nomor'),
 
-                Tables\Columns\TextColumn::make('shippings_date')
+                Tables\Columns\TextColumn::make('shipping_date')
                     ->label('Tanggal Pengiriman')
                     ->badge()
                     ->searchable(),
@@ -175,6 +176,7 @@ class ShippingNoteResource extends Resource
         return [
             'index' => Pages\ListShippingNotes::route('/'),
             'create' => Pages\CreateShippingNote::route('/create'),
+            'view' => Pages\ViewShippingNote::route('/{record}'),
             'edit' => Pages\EditShippingNote::route('/{record}/edit'),
         ];
     }

@@ -25,4 +25,9 @@ class Cost extends Model
     {
         return $this->hasMany(Shipping::class);
     }
+
+    public function shippingnotes(): HasMany
+    {
+        return $this->hasMany(ShippingNote::class);
+    }
 }

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('type');
             $table->string('brand');
             $table->string('number');
-            $table->date('production');
+            $table->string('production_year');
             $table->date('tax_date');
             $table->string('tax_price');
             $table->date('oil_date');

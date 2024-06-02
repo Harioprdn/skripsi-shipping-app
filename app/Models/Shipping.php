@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Shipping extends Model
@@ -19,9 +20,9 @@ class Shipping extends Model
         'paid' => 'boolean',
     ];
 
-    public function items(): BelongsTo
+    public function items(): HasMany
     {
-        return $this->belongsTo(Item::class);
+        return $this->hasMany(Item::class);
     }
 
     public function cities(): BelongsTo
@@ -34,8 +35,8 @@ class Shipping extends Model
         return $this->belongsTo(Cost::class);
     }
 
-    public function shippingnotes(): HasMany
+    public function shippingnotes(): BelongsToMany
     {
-        return $this->hasMany(ShippingNote::class);
+        return $this->belongsToMany(ShippingNote::class, 'shipping_note_items', 'shipping_id', 'shipping_note_id');
     }
 }

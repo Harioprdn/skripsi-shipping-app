@@ -45,6 +45,21 @@ class DatabaseSeeder extends Seeder
 
         ]);
 
+        DB::table('vehicles')->insert([
+            'type' => 'Truk Pick Up',
+            'brand' => 'Toyota',
+            'number' => 'D1234XXX',
+            'production_year' => '2010',
+            'tax_date' => '2026-06-01',
+            'tax_price' => '1000000',
+            'oil_date' => '2024-06-01',
+            'machine_number' => '1',
+            'chassis_number' => '1',
+            'color' => 'Hitam',
+            'fuel' => 'Diesel',
+
+        ]);
+
         DB::table('shippings')->insert([
             'number' => 'MC123456789012',
             'sender_name' => 'Hario',
