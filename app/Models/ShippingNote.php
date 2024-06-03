@@ -36,12 +36,7 @@ class ShippingNote extends Model
         return $this->belongsTo(Vehicle::class);
     }
 
-    public function shippings(): BelongsToMany
-    {
-        return $this->belongsToMany(Shipping::class, 'shipping_note_items', 'shipping_note_id', 'shippings_id');
-    }
-
-    public function items(): HasMany
+    public function shippingnoteitems(): HasMany
     {
         return $this->hasMany(ShippingNoteItem::class);
     }

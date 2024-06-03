@@ -6,8 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class ShippingNoteItem extends Model
+class ShippingNoteItem extends Pivot
 {
     use HasFactory;
 
@@ -27,6 +28,6 @@ class ShippingNoteItem extends Model
 
     public function shippingnotes(): BelongsTo
     {
-        return $this->belongsTo(Shipping::class);
+        return $this->belongsTo(ShippingNote::class);
     }
 }

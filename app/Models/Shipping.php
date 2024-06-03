@@ -20,9 +20,9 @@ class Shipping extends Model
         'paid' => 'boolean',
     ];
 
-    public function items(): HasMany
+    public function items(): BelongsTo
     {
-        return $this->hasMany(Item::class);
+        return $this->belongsTo(Item::class);
     }
 
     public function cities(): BelongsTo
@@ -35,8 +35,8 @@ class Shipping extends Model
         return $this->belongsTo(Cost::class);
     }
 
-    public function shippingnotes(): BelongsToMany
+    public function shippingnoteitems(): HasMany
     {
-        return $this->belongsToMany(ShippingNote::class, 'shipping_note_items', 'shipping_id', 'shipping_note_id');
+        return $this->hasMany(ShippingNoteItem::class);
     }
 }

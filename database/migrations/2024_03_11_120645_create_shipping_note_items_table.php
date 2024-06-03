@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('shippings_id')->nullable()->constrained()->cascadeOnDelete();
             $table->foreignId('shipping_note_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->string('number');
-            $table->enum('status', ['Baru', 'Diproses', 'Terkirim', 'Dibatalkan']);
-            $table->date('date');
+            $table->string('number')->nullable();
+            $table->enum('status', ['Baru', 'Diproses', 'Terkirim', 'Dibatalkan'])->nullable();
+            $table->date('date')->nullable();
             $table->timestamps();
         });
     }

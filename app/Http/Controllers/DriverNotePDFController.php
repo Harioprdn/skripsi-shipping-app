@@ -12,14 +12,15 @@ class DriverNotePDFController extends Controller
 
     public function drivernotePDF($id)
     {
-        $drivernote = ShippingNote::with(['shippings', 'items', 'items.shippings', 'shippings.items'])
+        $drivernote = ShippingNote::with(['shippingnoteitems', 'shippingnoteitems.shippings'])
+            ->where('id', $id)
             ->findOrFail($id);
 
         $data = [
             'drivernote' => $drivernote,
         ];
 
-        $pdf = Pdf::loadView('drivernotePDF', $data)->setPaper('a4', 'landscape')->setWarnings(false);
+        $pdf = Pdf::loadView('drivernotePDF', $data)->setPaper('A4', 'landscape');
 
         set_time_limit(300);
 

@@ -47,11 +47,11 @@ class ShippingNoteResource extends Resource
                     ->label('Pilih Kurir')
                     ->searchable(),
 
-                Forms\Components\Repeater::make('items')
+                Forms\Components\Repeater::make('shippingnoteitems')
                     ->label('Pilih Pengiriman')
                     ->relationship()
                     ->schema([
-                        Forms\Components\Select::make('number')
+                        Forms\Components\Select::make('shippings_id')
                             ->options(Shipping::all()->pluck('number', 'id')->toArray())
                             ->required()
                             ->reactive()
